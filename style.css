@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #ffef96;
+    display: flex;
+
+}
+
+h1 {
+    background-color: chartreuse;
+}
+
+#grid {
+    width: 80vw;
+    aspect-ratio: 1/1;
+    background-color: aquamarine;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    
+}
+
+#interface {
+    background-color: blueviolet;
+}
+
+.gridSquare {
+    border: 1px solid black;
+}
