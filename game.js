@@ -27,17 +27,7 @@ class GameBoard {
     }
   }
 
-  const board = new GameBoard(10, 10);
-
-
-
-// const levelCheck = {
-//   lvl1 : true,
-//   lvl2 : false,
-//   lvl3 : false,
-//   lvl4 : false,
-//   lvl5 : false,
-// }
+const board = new GameBoard(10, 10);
 
 const game = {
   isStarted: false,
@@ -57,6 +47,11 @@ const player = {
     this.cell.classList.remove(this.className)
   },
   move(direction) {
+
+    if (!this.canMove(direction)) {
+      return
+    }
+
     this.hide()
     const currentIndex = parseInt(this.cell.dataset.index)
     let newIndex
@@ -77,10 +72,30 @@ const player = {
     }
     this.cell = board.gridArray[newIndex]
     this.show()
-  }
-  // moveDirection(){
+    this.detectEggCollision()
+  },
+  canMove(direction) {
+    const currentIndex = parseInt(this.cell.dataset.index)
+    const column = currentIndex % board.width
 
-  // }
+    switch (direction) {
+      case 'up':
+        return currentIndex >= board.width
+      case 'down':
+        const boardSize = board.width * board.height
+        return currentIndex < boardSize - board.width
+      case 'right':
+        return column < board.width -1
+      case 'left':
+        return column > 0
+    }
+  },
+  detectEggCollision(){
+    if (this.cell.dataset.index === egg.cell.dataset.index){
+      console.log(`collected`)
+      egg.collect()
+    }
+  }
   
 }
 
@@ -90,6 +105,15 @@ const egg = {
   show(){
     this.cell.classList.add(this.className)
     },
+  hide(){
+    this.cell.classList.remove(this.className)
+  },
+  collect(){
+    this.hide()
+    game.level = game.level+1
+    this.cell = spawnEggBasedOnLevel(game.level)
+    this.show()
+  }
 }
 
 
