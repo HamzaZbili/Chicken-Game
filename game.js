@@ -4,7 +4,33 @@ const startScreen = document.getElementById('startPage')
 const gameScreen = document.getElementById(`gameScreen`)
 const scoreScreen = document.getElementById(`scoreScreen`)
 
-startButton.addEventListener('click', startGame)
+const levelOneArray = [1,2,3,24,50,6,7,8,9]
+const levelTwoArray = [10,11,12,13,14,15,16,17,18]
+const arrayOfLevels = [levelOneArray, levelTwoArray]
+
+
+const game = {
+  isStarted: false,
+  level: 1,
+  arrayOfLevels,
+
+  startGame(){
+    moveToGameScreen()
+    player.show()
+    egg.show()
+    game.isStarted = true
+  },
+  displayWall(){
+    for (let i = 0; i < this.arrayOfLevels[level-1].length; i++){
+      this.board.gridArray[this.array[i]].classList.add(`levelWalls`)
+    }
+  }
+}
+
+
+
+startButton.addEventListener('click', game.startGame)
+startButton.addEventListener('click', game.buildWalls)
 
 class GameBoard {
     constructor(height, width) {
@@ -28,12 +54,6 @@ class GameBoard {
   }
 
 const board = new GameBoard(10, 10);
-
-const game = {
-  isStarted: false,
-  level: 1,
-}
-
 
 const player = {
   className: `player`,
@@ -122,7 +142,7 @@ function moveToGameScreen(){
   gameScreen.classList.toggle(`hidden`)
 }
 
-function moveToScoreAndNextLevel(){
+function moveToScoreScreen(){
   gameScreen.classList.toggle(`hidden`)
   scoreScreen.classList.toggle(`hidden`)
 }
@@ -132,12 +152,7 @@ function returnToStartScreen(){
   scoreScreen.classList.toggle(`hidden`)
 }
 
-function startGame(){
-  moveToGameScreen()
-  player.show()
-  egg.show()
-  game.isStarted = true
-}
+
 
 function spawnPlayerBasedOnLevel(level){
   switch (level) {
@@ -147,8 +162,21 @@ function spawnPlayerBasedOnLevel(level){
     case 2:
       return board.gridArray[9]
       break;
-      default:
-        break;
+    case 3:
+    return board.gridArray[60]
+    break;
+    case 4:
+      return board.gridArray[99]
+  break;
+    case 5:
+        return board.gridArray[7]
+    break;
+    case 6:
+        return board.gridArray[45]
+    break;
+  default:
+    moveToScoreScreen();
+
   }
 }
 
@@ -160,8 +188,20 @@ function spawnEggBasedOnLevel(level){
     case 2:
       return board.gridArray[75]
       break;
+    case 3:
+      return board.gridArray[4]
+      break;
+    case 4:
+      return board.gridArray[85]
+      break;
+    case 5:
+      return board.gridArray[39]
+      break;
+    case 6:
+      return board.gridArray[21]
+      break;
       default:
-        break;
+        moveToScoreScreen();
   }
 }
 
@@ -185,6 +225,8 @@ document.addEventListener('keydown', (event) => {
       break
   }
 })
+
+
 
 // class Fox {
 //   constructor(path) {

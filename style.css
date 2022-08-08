@@ -76,3 +76,6 @@ button {
     background-size: 95%;
     background-repeat: no-repeat;
 }
+.levelWalls {
+    background-color: red;
+}
