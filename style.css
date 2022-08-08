@@ -12,20 +12,59 @@ h1 {
     background-color: chartreuse;
 }
 
-#grid {
+button {
+    
+}
+
+.startScreen {
+    width: 80vw;
+    aspect-ratio: 1/1;
+    background-color:crimson;
+    margin-right: .25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid {
     width: 80vw;
     aspect-ratio: 1/1;
     background-color: aquamarine;
     display: grid;
+    margin-right: .25rem;
+}
+
+.scoreScreen {
+    width: 80vw;
+    aspect-ratio: 1/1;
+    background-color:orangered;
+    margin-right: .25rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.lvl1 {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    
 }
 
 #interface {
     background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .gridSquare {
     border: 1px solid black;
+}
+
+.player {
+    background-image: url(./playerJPEG.png);
+    background-position: center;
+    background-size: cover;
+    background-size: 95%;
+    background-repeat: no-repeat;
 }
