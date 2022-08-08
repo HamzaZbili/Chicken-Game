@@ -1,36 +1,61 @@
-const startButton = document.querySelector(`button`)
+const startButton = document.getElementById(`start`)
+const restartButton = document.getElementById(`restart`)
 
 const startScreen = document.getElementById('startPage')
 const gameScreen = document.getElementById(`gameScreen`)
 const scoreScreen = document.getElementById(`scoreScreen`)
 
-const levelOneArray = [1,2,3,24,50,6,7,8,9]
+const levelOneArray = [
+1,2,3,4,5,6,7,8,9,19,20,
+21,22,23,24,25,26,27,29,
+30,37,39,
+40,42,43,44,45,47,
+49,50,52,53,54,55,57,
+59,62,63,64,65,67,69,
+71,72,77,79,81,82,83,84,85,89,
+91,92,93,94,95,96,97,98,99
+]
 const levelTwoArray = [10,11,12,13,14,15,16,17,18]
-const arrayOfLevels = [levelOneArray, levelTwoArray]
-
+const levelThreeArray = [10,11,12,13,14,15,16,17,18]
+const levelFourArray = [10,11,12,13,14,15,16,17,18]
+const levelFiveArray = [10,11,12,13,14,15,16,17,18]
+const levelSixArray = [10,11,12,13,14,15,16,17,18]
+const arrayOfLevels = [levelOneArray, levelTwoArray, levelThreeArray,
+  levelFourArray, levelFiveArray, levelSixArray]
 
 const game = {
   isStarted: false,
   level: 1,
-  arrayOfLevels,
-
+    
   startGame(){
     moveToGameScreen()
     player.show()
     egg.show()
     game.isStarted = true
   },
-  displayWall(){
-    for (let i = 0; i < this.arrayOfLevels[level-1].length; i++){
-      this.board.gridArray[this.array[i]].classList.add(`levelWalls`)
+  displayWalls(){
+    const currentLevel = arrayOfLevels.at(this.level-1)
+    for (let i = 0; i < currentLevel.length; i++){
+      board.gridArray[currentLevel[i]].classList.add(`levelWalls`)
+    }
+  },
+  clearBoard(){
+    for (const cell of board.gridArray) {
+      cell.classList.remove(`levelWalls`)
     }
   }
 }
 
-
-
 startButton.addEventListener('click', game.startGame)
-startButton.addEventListener('click', game.buildWalls)
+startButton.addEventListener('click', game.displayWalls)
+restartButton.addEventListener(`click`, restartGame)
+
+function restartGame() {
+  game.isStarted = false
+  game.level = 1
+  game.startGame()
+  game.displayWalls()
+}
 
 class GameBoard {
     constructor(height, width) {
@@ -133,6 +158,8 @@ const egg = {
     game.level = game.level+1
     this.cell = spawnEggBasedOnLevel(game.level)
     this.show()
+    game.clearBoard()
+    game.displayWalls()
   }
 }
 
