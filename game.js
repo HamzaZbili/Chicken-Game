@@ -84,6 +84,14 @@ const player = {
   
 }
 
+const egg = {
+  className: `egg`,
+  cell: spawnEggBasedOnLevel(game.level),
+  show(){
+    this.cell.classList.add(this.className)
+    },
+}
+
 
 function moveToGameScreen(){
   startScreen.classList.toggle(`hidden`)
@@ -103,6 +111,7 @@ function returnToStartScreen(){
 function startGame(){
   moveToGameScreen()
   player.show()
+  egg.show()
   game.isStarted = true
 }
 
@@ -113,6 +122,19 @@ function spawnPlayerBasedOnLevel(level){
       break;
     case 2:
       return board.gridArray[9]
+      break;
+      default:
+        break;
+  }
+}
+
+function spawnEggBasedOnLevel(level){
+  switch (level) {
+    case 1:
+      return board.gridArray[0]
+      break;
+    case 2:
+      return board.gridArray[75]
       break;
       default:
         break;

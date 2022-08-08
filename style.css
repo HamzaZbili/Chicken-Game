@@ -68,3 +68,11 @@ button {
     background-size: 95%;
     background-repeat: no-repeat;
 }
+
+.egg {
+    background-image: url(./egg.jpg);
+    background-position: center;
+    background-size: cover;
+    background-size: 95%;
+    background-repeat: no-repeat;
+}
