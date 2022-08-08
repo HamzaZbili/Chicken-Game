@@ -27,7 +27,7 @@ class GameBoard {
     }
   }
 
-  const levelOneBoard = new GameBoard(10, 10);
+  const board = new GameBoard(10, 10);
 
 
 
@@ -39,25 +39,45 @@ class GameBoard {
 //   lvl5 : false,
 // }
 
+const game = {
+  isStarted: false,
+  level: 1,
+}
+
 
 const player = {
   className: `player`,
-  level: 1,
   lives: 3,
-  // position: 
-  beginLevel(){
-    const startPosition = spawnPlayerBasedOnLevel(this.level)
-    startPosition.classList.add(this.className)
+  cell: spawnPlayerBasedOnLevel(game.level),
+
+  show(){
+  this.cell.classList.add(this.className)
+  },
+  hide() {
+    this.cell.classList.remove(this.className)
+  },
+  move(direction) {
+    this.hide()
+    const currentIndex = parseInt(this.cell.dataset.index)
+    let newIndex
+
+    switch (direction) {
+      case 'up':
+        newIndex = currentIndex - board.width
+        break
+      case 'down':
+        newIndex = currentIndex + board.width
+        break
+      case 'right':
+        newIndex = currentIndex + 1
+        break
+      case 'left':
+        newIndex = currentIndex - 1
+        break
+    }
+    this.cell = board.gridArray[newIndex]
+    this.show()
   }
-  // show(){
-
-  // }
-  // hide(){
-
-  // }
-  // move(){
-
-  // }
   // moveDirection(){
 
   // }
@@ -82,23 +102,43 @@ function returnToStartScreen(){
 
 function startGame(){
   moveToGameScreen()
-  player.beginLevel()
+  player.show()
+  game.isStarted = true
 }
 
 function spawnPlayerBasedOnLevel(level){
   switch (level) {
     case 1:
-      return levelOneBoard.gridArray[90]
+      return board.gridArray[90]
       break;
     case 2:
-      return levelOneBoard.gridArray[9]
+      return board.gridArray[9]
       break;
       default:
         break;
   }
 }
 
+document.addEventListener('keydown', (event) => {
+  if (!game.isStarted) {
+    return
+  }
 
+  switch (event.code) {
+    case 'ArrowUp':
+      player.move('up')
+      break
+    case 'ArrowDown':
+      player.move('down')
+      break
+    case 'ArrowLeft':
+      player.move('left')
+      break
+    case 'ArrowRight':
+      player.move('right')
+      break
+  }
+})
 
 // class Fox {
 //   constructor(path) {
