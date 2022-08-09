@@ -24,7 +24,7 @@ const levelFiveArray = [10,11,12,13,14,15,16,17,18]
 const levelSixArray = [10,11,12,13,14,15,16,17,18]
 const arrayOfLevels = [levelOneArray, levelTwoArray, levelThreeArray,
   levelFourArray, levelFiveArray, levelSixArray]
-
+let fox
 const game = {
   isStarted: false,
   level: 1,
@@ -96,16 +96,27 @@ class Fox {
     this.cell.classList.add(this.className)
   }
   hide(){
-    this.cell.classList.remove(this.className)
+    // if (currentLevel !== )
+    // if (player.cell.dataset.index === egg.cell.dataset.index){
+    //   this.cell.classList.remove(this.className)
+    // }
+  }
+  patrol(){
+
   }
   eatChicken(){
 
   }
-
 }
 
 function spawnFox(){
-  const fox = new Fox
+  // if(fox){
+  //   fox.destroy()
+  // }
+  if (fox) {
+    fox.cell.classList.toggle('fox')
+  }
+  fox = new Fox
 }
 
 
@@ -176,7 +187,6 @@ const player = {
   },
   detectWallCollision(cell){
     if (cell.classList.contains(`levelWalls`)){
-      console.log(`wall`)
       return true
     }
   },
