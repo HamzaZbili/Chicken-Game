@@ -5,6 +5,8 @@ const startScreen = document.getElementById('startPage')
 const gameScreen = document.getElementById(`gameScreen`)
 const scoreScreen = document.getElementById(`scoreScreen`)
 
+const levelCount = document.querySelector(`h2`)
+
 const levelOneArray = [
 1,2,3,4,5,6,7,8,9,19,20,
 21,22,23,24,25,26,27,29,
@@ -43,6 +45,9 @@ const game = {
     for (const cell of board.gridArray) {
       cell.classList.remove(`levelWalls`)
     }
+  },
+  levelUp(){
+    levelCount.textContent = `Level ${game.level}`
   }
 }
 
@@ -79,6 +84,21 @@ class GameBoard {
   }
 
 const board = new GameBoard(10, 10);
+
+class Fox {
+  constructor() {
+    this.className = 'fox'
+    this.path = path;
+    this.cell = spawnFoxBasedOnLevel(game.level)
+    this.level = game.level
+    this.show()
+  }
+  show(){
+    this.cell.classList.add(this.className)
+  }
+}
+
+
 
 const player = {
   className: `player`,
@@ -168,6 +188,7 @@ const egg = {
     this.show()
     game.clearBoard()
     game.displayWalls()
+    game.levelUp()
   }
 }
 
@@ -238,6 +259,30 @@ function spawnEggBasedOnLevel(level){
   }
 }
 
+function spawnFoxBasedOnLevel(level){
+  switch (level) {
+    case 1:
+      return board.gridArray[73]
+      break;
+    case 2:
+      return board.gridArray[75]
+      break;
+    case 3:
+      return board.gridArray[4]
+      break;
+    case 4:
+      return board.gridArray[85]
+      break;
+    case 5:
+      return board.gridArray[39]
+      break;
+    case 6:
+      return board.gridArray[21]
+      break;
+      default:
+  }
+}
+
 document.addEventListener('keydown', (event) => {
   if (!game.isStarted) {
     return
@@ -261,12 +306,7 @@ document.addEventListener('keydown', (event) => {
 
 
 
-// class Fox {
-//   constructor(path) {
-//     this.path = path;
 
-//   }
-// }
 
 // class Wolf extends Fox {
 //   constructor(){
