@@ -8,14 +8,14 @@ const scoreScreen = document.getElementById(`scoreScreen`)
 const levelOneArray = [
 1,2,3,4,5,6,7,8,9,19,20,
 21,22,23,24,25,26,27,29,
-30,37,39,
-40,42,43,44,45,47,
-49,50,52,53,54,55,57,
-59,62,63,64,65,67,69,
-71,72,77,79,81,82,83,84,85,89,
-91,92,93,94,95,96,97,98,99
-]
-const levelTwoArray = [10,11,12,13,14,15,16,17,18]
+30,37,39,40,42,43,44,45,
+47,49,50,52,53,54,55,57,
+59,62,63,64,65,67,69,71,
+72,77,79,81,82,83,84,85,
+89,91,92,93,94,95,96,97,
+98,99]
+const levelTwoArray = [
+10,11,12,13,14,15,16,17,18]
 const levelThreeArray = [10,11,12,13,14,15,16,17,18]
 const levelFourArray = [10,11,12,13,14,15,16,17,18]
 const levelFiveArray = [10,11,12,13,14,15,16,17,18]
@@ -116,13 +116,13 @@ const player = {
         break
     }
     this.cell = board.gridArray[newIndex]
+    
     this.show()
     this.detectEggCollision()
   },
   canMove(direction) {
     const currentIndex = parseInt(this.cell.dataset.index)
     const column = currentIndex % board.width
-
     switch (direction) {
       case 'up':
         return currentIndex >= board.width
@@ -140,8 +140,10 @@ const player = {
       console.log(`collected`)
       egg.collect()
     }
-  }
-  
+  },
+  detectWallCollision(){
+    this.cell.classList.contains(`levelWalls`)
+  } 
 }
 
 const egg = {
@@ -178,8 +180,6 @@ function returnToStartScreen(){
   startScreen.classList.toggle(`hidden`)
   scoreScreen.classList.toggle(`hidden`)
 }
-
-
 
 function spawnPlayerBasedOnLevel(level){
   switch (level) {

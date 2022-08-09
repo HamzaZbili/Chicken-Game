@@ -1,25 +1,35 @@
+@font-face {
+    font-family: "Mouse Memoirs";
+    src: url(./Mouse_Memoirs/MouseMemoirs-Regular.ttf)
+}
+
 * {
     box-sizing: border-box;
+    font-family: "Mouse Memoirs";
 }
 
 body{
-    background-color: #ffef96;
+
     display: flex;
+    background-image: url(./background.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 
 }
 
 h1 {
-    background-color: chartreuse;
+    text-align: center;
 }
 
 button {
-    
+    height: 2rem;
+    width: 5rem;
 }
 
 .startScreen {
     width: 80vw;
     aspect-ratio: 1/1;
-    background-color:crimson;
     margin-right: .25rem;
     display: flex;
     justify-content: center;
@@ -29,7 +39,9 @@ button {
 .grid {
     width: 80vw;
     aspect-ratio: 1/1;
-    background-color: aquamarine;
+    background-image: url(./grass.jpg);
+    background-position: center;
+    background-size: cover;
     display: grid;
     margin-right: .25rem;
 }
@@ -38,7 +50,7 @@ button {
     width: 80vw;
     aspect-ratio: 1/1;
     background-color:orangered;
-    margin-right: .25rem;
+    margin-right: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,14 +66,13 @@ button {
 }
 
 #interface {
-    background-color: blueviolet;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .gridSquare {
-    border: 1px solid black;
+    
 }
 
 .player {
@@ -73,12 +84,14 @@ button {
 }
 
 .egg {
-    background-image: url(./egg.jpg);
+    background-image: url(./egg.png);
     background-position: center;
     background-size: cover;
-    background-size: 95%;
     background-repeat: no-repeat;
 }
 .levelWalls {
-    background-color: red;
+    background-image: url(./fence.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
