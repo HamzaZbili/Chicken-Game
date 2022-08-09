@@ -1,6 +1,5 @@
 const startButton = document.getElementById(`start`)
 const restartButton = document.getElementById(`restart`)
-let timeLeft = 15;
 
 const startScreen = document.getElementById('startPage')
 const gameScreen = document.getElementById(`gameScreen`)
@@ -17,16 +16,23 @@ const levelCount = document.querySelector(`h2`)
 
 // setTimer()
 
+let timeLeft = 15;
+let timerId;
 function startTime () {
-let timerId = setInterval(countdown, 1000);
+if (timerId) {
+  clearTimeout(timerId);
+}
+
+  timerId = setInterval(countdown, 1000);
+
+}
 function countdown() {
-      if (timeLeft === -1) {
-        clearTimeout(timerId);
-      } else {
-        clock.textContent = 'HATCHING IN ' + timeLeft + '!';
-        timeLeft--;
-    }
-  }
+  if (timeLeft === -1) {
+    clearTimeout(timerId);
+  } else {
+    clock.textContent = 'HATCHING IN ' + timeLeft + '!';
+    timeLeft--;
+}
 }
 
 
@@ -37,8 +43,8 @@ const levelOneArray = [
 44,45,47,49,50,52,53,54,
 55,57,59,60,62,63,64,65,
 67,69,70,72,77,79,80,82,
-83,84,85,89,90,92,93,94,
-95,96,97,98,99]
+83,84,85,89,90,91,92,93,
+94,95,96,97,98,99]
 const levelTwoArray = [
 10,11,12,13,14,15,16,17,18]
 const levelThreeArray = [10,11,12,13,14,15,16,17,18]
@@ -116,10 +122,9 @@ const board = new GameBoard(10, 10);
 
 class Fox {
   constructor() {
-    this.path = setFoxPath()
     this.className = 'fox'
     this.cell = spawnFoxBasedOnLevel(game.level)
-    this.level = game.level
+    this.path = setFoxPath()
     this.show()
     this.patrol()
   }
@@ -130,14 +135,14 @@ class Fox {
     this.cell.classList.remove(this.className)
   }
   patrol(){
-    setInterval(this.move, 1000);
+    setInterval(() => this.move(), 500);
+    setInterval(() => this.eatChicken(), 500);
   }
   move() {
-    this.path.forEach(location =>
-      this.cell = location)
-}
+    this.hide()
+  }
   eatChicken(){
-
+    this.show()
   }
 }
 
@@ -277,7 +282,7 @@ function returnToStartScreen(){
 function spawnPlayerBasedOnLevel(level){
   switch (level) {
     case 1:
-      return board.gridArray[91]
+      return board.gridArray[81]
       break;
     case 2:
       return board.gridArray[9]
