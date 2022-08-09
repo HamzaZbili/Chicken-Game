@@ -116,8 +116,11 @@ const player = {
         break
     }
     this.cell = board.gridArray[newIndex]
-    
+    if (this.detectWallCollision(this.cell)){
+      this.cell = board.gridArray[currentIndex]
+    }
     this.show()
+    
     this.detectEggCollision()
   },
   canMove(direction) {
@@ -141,8 +144,11 @@ const player = {
       egg.collect()
     }
   },
-  detectWallCollision(){
-    this.cell.classList.contains(`levelWalls`)
+  detectWallCollision(cell){
+    if (cell.classList.contains(`levelWalls`)){
+      console.log(`wall`)
+      return true
+    }
   } 
 }
 
