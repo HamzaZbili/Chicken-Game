@@ -1,21 +1,44 @@
 const startButton = document.getElementById(`start`)
 const restartButton = document.getElementById(`restart`)
+let timeLeft = 15;
 
 const startScreen = document.getElementById('startPage')
 const gameScreen = document.getElementById(`gameScreen`)
 const scoreScreen = document.getElementById(`scoreScreen`)
 
+let clock = document.querySelector(`.clock`)
 const levelCount = document.querySelector(`h2`)
 
+// function setTimer() {
+  
+//   time = setInterval(function () {
+//     time ++;
+//   }, 400)}
+
+// setTimer()
+
+function startTime () {
+let timerId = setInterval(countdown, 1000);
+function countdown() {
+      if (timeLeft === -1) {
+        clearTimeout(timerId);
+      } else {
+        clock.textContent = 'HATCHING IN ' + timeLeft + '!';
+        timeLeft--;
+    }
+  }
+}
+
+
 const levelOneArray = [
-1,2,3,4,5,6,7,8,9,19,20,
-21,22,23,24,25,26,27,29,
-30,37,39,40,42,43,44,45,
-47,49,50,52,53,54,55,57,
-59,62,63,64,65,67,69,71,
-72,77,79,81,82,83,84,85,
-89,91,92,93,94,95,96,97,
-98,99]
+0,1,2,3,4,5,6,7,8,9,10,
+19,20,21,22,23,24,25,26,
+27,29,30,37,39,40,42,43,
+44,45,47,49,50,52,53,54,
+55,57,59,60,62,63,64,65,
+67,69,70,72,77,79,80,82,
+83,84,85,89,90,92,93,94,
+95,96,97,98,99]
 const levelTwoArray = [
 10,11,12,13,14,15,16,17,18]
 const levelThreeArray = [10,11,12,13,14,15,16,17,18]
@@ -24,11 +47,14 @@ const levelFiveArray = [10,11,12,13,14,15,16,17,18]
 const levelSixArray = [10,11,12,13,14,15,16,17,18]
 const arrayOfLevels = [levelOneArray, levelTwoArray, levelThreeArray,
   levelFourArray, levelFiveArray, levelSixArray]
-let fox
+
+
+
 const game = {
   isStarted: false,
+  isGameOver: false,
   level: 1,
-    
+
   startGame(){
     moveToGameScreen()
     player.show()
@@ -51,6 +77,7 @@ const game = {
   }
 }
 
+startButton.addEventListener('click', startTime)
 startButton.addEventListener('click', game.startGame)
 startButton.addEventListener('click', game.displayWalls)
 startButton.addEventListener('click', spawnFox)
@@ -83,40 +110,52 @@ class GameBoard {
       }
     }
   }
+
+let fox
 const board = new GameBoard(10, 10);
 
 class Fox {
   constructor() {
+    this.path = setFoxPath()
     this.className = 'fox'
     this.cell = spawnFoxBasedOnLevel(game.level)
     this.level = game.level
     this.show()
+    this.patrol()
   }
   show(){
     this.cell.classList.add(this.className)
   }
   hide(){
-    // if (currentLevel !== )
-    // if (player.cell.dataset.index === egg.cell.dataset.index){
-    //   this.cell.classList.remove(this.className)
-    // }
+    this.cell.classList.remove(this.className)
   }
   patrol(){
-
+    setInterval(this.move, 1000);
   }
+  move() {
+    this.path.forEach(location =>
+      this.cell = location)
+}
   eatChicken(){
 
   }
 }
 
 function spawnFox(){
-  // if(fox){
-  //   fox.destroy()
-  // }
   if (fox) {
     fox.cell.classList.toggle('fox')
   }
   fox = new Fox
+}
+
+function setFoxPath (){ 
+  const path = []
+  switch (game.level) {
+    case 1:
+      path.push(74,75,76)
+      break;
+  }
+  return path
 }
 
 
@@ -160,7 +199,6 @@ const player = {
       this.cell = board.gridArray[currentIndex]
     }
     this.show()
-    
     this.detectEggCollision()
   },
   canMove(direction) {
@@ -217,6 +255,8 @@ function nextLevel(){
   game.displayWalls()
   game.levelUp()
   spawnFox()
+  startTime()
+  timeLeft = 15
 }
 
 function moveToGameScreen(){
@@ -237,7 +277,7 @@ function returnToStartScreen(){
 function spawnPlayerBasedOnLevel(level){
   switch (level) {
     case 1:
-      return board.gridArray[90]
+      return board.gridArray[91]
       break;
     case 2:
       return board.gridArray[9]
@@ -263,7 +303,7 @@ function spawnPlayerBasedOnLevel(level){
 function spawnEggBasedOnLevel(level){
   switch (level) {
     case 1:
-      return board.gridArray[0]
+      return board.gridArray[11]
       break;
     case 2:
       return board.gridArray[75]
