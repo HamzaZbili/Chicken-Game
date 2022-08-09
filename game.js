@@ -53,6 +53,7 @@ const game = {
 
 startButton.addEventListener('click', game.startGame)
 startButton.addEventListener('click', game.displayWalls)
+startButton.addEventListener('click', spawnFox)
 restartButton.addEventListener(`click`, restartGame)
 
 function restartGame() {
@@ -82,13 +83,11 @@ class GameBoard {
       }
     }
   }
-
 const board = new GameBoard(10, 10);
 
 class Fox {
   constructor() {
     this.className = 'fox'
-    this.path = path;
     this.cell = spawnFoxBasedOnLevel(game.level)
     this.level = game.level
     this.show()
@@ -96,8 +95,18 @@ class Fox {
   show(){
     this.cell.classList.add(this.className)
   }
+  hide(){
+    this.cell.classList.remove(this.className)
+  }
+  eatChicken(){
+
+  }
+
 }
 
+function spawnFox(){
+  const fox = new Fox
+}
 
 
 const player = {
@@ -161,7 +170,8 @@ const player = {
   detectEggCollision(){
     if (this.cell.dataset.index === egg.cell.dataset.index){
       console.log(`collected`)
-      egg.collect()
+      nextLevel()
+      this.respawn()
     }
   },
   detectWallCollision(cell){
@@ -169,7 +179,12 @@ const player = {
       console.log(`wall`)
       return true
     }
-  } 
+  },
+  respawn(){
+    this.hide()
+    this.cell = spawnPlayerBasedOnLevel(game.level)
+    this.show()
+  }
 }
 
 const egg = {
@@ -180,18 +195,19 @@ const egg = {
     },
   hide(){
     this.cell.classList.remove(this.className)
-  },
-  collect(){
-    this.hide()
-    game.level = game.level+1
-    this.cell = spawnEggBasedOnLevel(game.level)
-    this.show()
-    game.clearBoard()
-    game.displayWalls()
-    game.levelUp()
   }
 }
 
+function nextLevel(){
+  egg.hide()
+  game.level = game.level+1
+  egg.cell = spawnEggBasedOnLevel(game.level)
+  egg.show()
+  game.clearBoard()
+  game.displayWalls()
+  game.levelUp()
+  spawnFox()
+}
 
 function moveToGameScreen(){
   startScreen.classList.toggle(`hidden`)
@@ -265,16 +281,16 @@ function spawnFoxBasedOnLevel(level){
       return board.gridArray[73]
       break;
     case 2:
-      return board.gridArray[75]
+      return board.gridArray[23]
       break;
     case 3:
-      return board.gridArray[4]
+      return board.gridArray[40]
       break;
     case 4:
-      return board.gridArray[85]
+      return board.gridArray[0]
       break;
     case 5:
-      return board.gridArray[39]
+      return board.gridArray[99]
       break;
     case 6:
       return board.gridArray[21]
