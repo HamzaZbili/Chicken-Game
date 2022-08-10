@@ -49,14 +49,66 @@ const levelOneMap = `
 
 const levelTwoMap = `
 ##########
-#?.......#
-########.#
-#......#.#
-#.####F#.#
-#.###.P#.#
-#.####P#.#
-#.#PPPP#.#
-#@####...#
+#######@##
+#######.##
+###F....##
+###.###.##
+#.......##
+#.########
+#..?######
+##########
+##########
+`;
+
+const levelThreeMap = `
+##########
+####..####
+#?...#####
+####.#####
+####.#####
+####.#####
+#...F#####
+#..#######
+#.......@#
+##########
+`;
+
+const levelFourMap = `
+##########
+#........#
+#........#
+#....?...#
+#........#
+#........#
+#........#
+#........#
+#.......@#
+##########
+`;
+
+const levelFiveMap = `
+##########
+#........#
+#........#
+#....?...#
+#........#
+#........#
+#........#
+#........#
+#.......@#
+##########
+`;
+
+const levelSixMap = `
+##########
+#........#
+#........#
+#....@...#
+#........#
+#........#
+#..?.....#
+#........#
+#........#
 ##########
 `;
 
@@ -76,7 +128,6 @@ class Level {
         cell.classList.add(`levelWalls`);
       }
       if (item === "@") {
-        console.log("SETTING PLAYER CELL", cell);
         player.cell = cell;
       }
       if (item === "?") {
@@ -84,32 +135,17 @@ class Level {
       }
     }
   }
-  startLevel() {
+  start() {
     this.drawMap();
     this.fox.patrol();
     levelCount.textContent = this.name;
   }
+  stop() {
+    if (this.fox) {
+      this.fox.stop();
+    }
+  }
 }
-
-// const levelOneArray = [
-//   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 19, 20, 21, 22, 23, 24, 25, 26, 27, 29, 30,
-//   37, 39, 40, 42, 43, 44, 45, 47, 49, 50, 52, 53, 54, 55, 57, 59, 60, 62, 63,
-//   64, 65, 67, 69, 70, 72, 77, 79, 80, 82, 83, 84, 85, 89, 90, 91, 92, 93, 94,
-//   95, 96, 97, 98, 99,
-// ];
-// const levelTwoArray = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-// const levelThreeArray = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-// const levelFourArray = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-// const levelFiveArray = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-// const levelSixArray = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-// const arrayOfLevels = [
-//   levelOneArray,
-//   levelTwoArray,
-//   levelThreeArray,
-//   levelFourArray,
-//   levelFiveArray,
-//   levelSixArray,
-// ];
 
 const game = {
   isStarted: false,
@@ -117,19 +153,13 @@ const game = {
   level: 0,
 
   startGame() {
+    startTime();
     moveToGameScreen();
-    levels[this.level].startLevel();
+    levels[this.level].start();
     player.show();
     egg.show();
     this.isStarted = true;
   },
-  // displayWalls() {},
-  // displayWallsOld() {
-  //   const currentLevel = arrayOfLevels.at(this.level - 1);
-  //   for (let i = 0; i < currentLevel.length; i++) {
-  //     board.gridArray[currentLevel[i]].classList.add(`levelWalls`);
-  //   }
-  // },
   clearBoard() {
     for (const cell of board.gridArray) {
       cell.classList.remove(`levelWalls`);
@@ -137,21 +167,16 @@ const game = {
   },
   levelUp() {
     this.clearBoard();
+    levels[this.level].fox.stop();
     this.level += 1;
-
     player.hide();
     egg.hide();
-    levels[this.level].startLevel();
+    levels[this.level].start();
     player.show();
     egg.show();
-    // spawnFox();
-    // timeLeft = 15
-    // startTime()
-    // countdown()
   },
 };
 
-startButton.addEventListener("click", startTime);
 startButton.addEventListener("click", () => game.startGame());
 restartButton.addEventListener(`click`, restartGame);
 
@@ -172,7 +197,6 @@ class GameBoard {
   }
 
   buildGameBoard() {
-    //builds square gameboard based on width/height arguments
     for (let i = 0; i < this.height * this.width; i++) {
       const cell = document.createElement(`div`);
       cell.classList.add(`gridSquare`);
@@ -183,17 +207,14 @@ class GameBoard {
   }
 }
 
-let fox;
 const board = new GameBoard(10, 10);
 
 class Fox {
   constructor(path, cell) {
     this.intervalId = null;
     this.className = "fox";
-    this.cell = cell || spawnFoxBasedOnLevel(game.level);
-    this.path = path || setFoxPath();
-    // this.show();
-    // this.patrol();
+    this.cell = cell;
+    this.path = path;
   }
   show() {
     this.cell.classList.add(this.className);
@@ -207,6 +228,7 @@ class Fox {
       this.hide();
       this.move(this.path[counter++]);
       this.show();
+      console.log("running");
       if (counter === this.path.length) {
         counter = 0;
       }
@@ -215,49 +237,18 @@ class Fox {
   move(index) {
     this.cell = board.gridArray[index];
   }
-  eatChicken() {}
-  clear() {
+  stop() {
     clearInterval(this.intervalId);
+    console.log(`test`);
+    this.hide();
   }
+  eatChicken() {}
 }
-
-// function spawnFox() {
-//   if (fox) {
-//     fox.clear();
-//     fox.cell.classList.remove("fox");
-//   }
-//   fox = new Fox();
-// }
-
-// function setFoxPath() {
-//   const path = [];
-//   switch (game.level) {
-//     case 1:
-//       path.push(74, 75, 76, 66, 56, 46, 36, 46, 56, 66, 76, 75, 74, 73);
-//       break;
-//     case 2:
-//       path.push();
-//       break;
-//     case 3:
-//       path.push();
-//       break;
-//     case 4:
-//       path.push();
-//       break;
-//     case 5:
-//       path.push();
-//       break;
-//     case 6:
-//       path.push();
-//       break;
-//   }
-//   return path;
-// }
 
 const player = {
   className: `player`,
   lives: 3,
-  cell: null, //spawnPlayerBasedOnLevel(game.level),
+  cell: null,
 
   show() {
     this.cell.classList.add(this.className);
@@ -314,7 +305,6 @@ const player = {
     if (this.cell.dataset.index === egg.cell.dataset.index) {
       console.log(`collected`);
       game.levelUp();
-      this.respawn();
     }
   },
   detectWallCollision(cell) {
@@ -322,16 +312,11 @@ const player = {
       return true;
     }
   },
-  respawn() {
-    this.hide();
-    // this.cell = spawnPlayerBasedOnLevel(game.level);
-    this.show();
-  },
 };
 
 const egg = {
   className: `egg`,
-  cell: null, // spawnEggBasedOnLevel(game.level),
+  cell: null,
   show() {
     this.cell.classList.add(this.className);
   },
@@ -355,69 +340,6 @@ function returnToStartScreen() {
   scoreScreen.classList.toggle(`hidden`);
 }
 
-// function spawnPlayerBasedOnLevel(level) {
-//   switch (level) {
-//     case 1:
-//       return board.gridArray[81];
-//     case 2:
-//       return board.gridArray[50];
-//     case 3:
-//       return board.gridArray[60];
-//     case 4:
-//       return board.gridArray[99];
-//     case 5:
-//       return board.gridArray[7];
-//     case 6:
-//       return board.gridArray[45];
-//   }
-// }
-
-// function spawnEggBasedOnLevel(level) {
-//   switch (level) {
-//     case 1:
-//       return board.gridArray[11];
-//       break;
-//     case 2:
-//       return board.gridArray[75];
-//       break;
-//     case 3:
-//       return board.gridArray[4];
-//       break;
-//     case 4:
-//       return board.gridArray[85];
-//       break;
-//     case 5:
-//       return board.gridArray[39];
-//       break;
-//     case 6:
-//       return board.gridArray[21];
-//       break;
-//   }
-// }
-
-// function spawnFoxBasedOnLevel(level) {
-//   switch (level) {
-//     case 1:
-//       return board.gridArray[73];
-//       break;
-//     case 2:
-//       return board.gridArray[23];
-//       break;
-//     case 3:
-//       return board.gridArray[40];
-//       break;
-//     case 4:
-//       return board.gridArray[0];
-//       break;
-//     case 5:
-//       return board.gridArray[99];
-//       break;
-//     case 6:
-//       return board.gridArray[64];
-//       break;
-//   }
-// }
-
 document.addEventListener("keydown", (event) => {
   if (!game.isStarted) {
     return;
@@ -439,31 +361,47 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// class Wolf extends Fox {
-//   constructor(){
-
-//   }
-// }
-
-// class Worm {
-//   constructor(points) {
-//     this.points = points
-//   }
-
-// }
-
 const levels = [
   new Level(
     "Farm Escape",
     levelOneMap,
     new Fox(
-      [74, 75, 76, 66, 56, 46, 36, 46, 56, 66, 76, 75, 74, 73],
-      board.gridArray[36]
+      [
+        74, 75, 76, 66, 56, 46, 36, 35, 34, 33, 34, 35, 36, 46, 56, 66, 76, 75,
+        74, 73,
+      ],
+      board.gridArray[73]
     )
   ),
   new Level(
-    "Fox Den",
+    "Harvest Day",
     levelTwoMap,
+    new Fox(
+      [57, 57, 47, 37, 36, 35, 34, 33, 43, 53, 54, 55, 56],
+      board.gridArray[56]
+    )
+  ),
+  new Level(
+    "3",
+    levelThreeMap,
+    new Fox(
+      [64, 54, 44, 34, 24, 14, 15, 14, 24, 34, 44, 54, 64, 63],
+      board.gridArray[63]
+    )
+  ),
+  new Level(
+    "4",
+    levelFourMap,
+    new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
+  ),
+  new Level(
+    "5",
+    levelFiveMap,
+    new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
+  ),
+  new Level(
+    "Fox Den",
+    levelSixMap,
     new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
   ),
 ];
