@@ -1,9 +1,11 @@
 const startButton = document.getElementById(`start`);
-const restartButton = document.querySelectorAll(`.restart`);
+const restartButton = document.getElementById(`restart`);
 
 const startScreen = document.getElementById("startPage");
 const gameScreen = document.getElementById(`gameScreen`);
 const gameOverScreen = document.getElementById(`gameOver`);
+
+const livesContainer = document.querySelector(`.lives`);
 
 let clock = document.querySelector(`.clock`);
 const levelCount = document.querySelector(`h3`);
@@ -158,6 +160,7 @@ const game = {
   caughtByFox: `Caught by Fox`,
   outOfLives: `Out of Lives`,
   lives: 2,
+  livesArray: [],
 
   startGame() {
     startTime();
@@ -165,6 +168,7 @@ const game = {
     levels[this.level].start();
     player.show();
     egg.show();
+    this.updateLives();
     this.isStarted = true;
   },
   clearBoard() {
@@ -207,18 +211,27 @@ const game = {
     levels[this.level].drawMap();
     levels[this.level].start();
     player.show();
+    this.updateLives();
+  },
+  updateLives() {
+    livesContainer.textContent = null;
+    for (let i = 0; i < this.lives + 1; i++) {
+      const life = document.createElement("div");
+      life.classList.add("life");
+      livesContainer.appendChild(life);
+    }
   },
 };
 
 startButton.addEventListener("click", () => game.startGame());
 
-// restartButton.addEventListener(`click`, restartGame);
+// restartButton.addEventListener("clilck", restartGame());
 
 // function restartGame() {
-//   game.isStarted = false;
-//   game.level = 1;
-//   game.startGame();
-//   game.displayWalls();
+//   game.level = 1,
+//   game.lives = 2,
+
+//   game.startGame()
 // }
 
 class GameBoard {
@@ -376,8 +389,6 @@ const egg = {
     this.cell.classList.remove(this.className);
   },
 };
-
-function gameOver() {}
 
 document.addEventListener("keydown", (event) => {
   if (!game.isStarted) {

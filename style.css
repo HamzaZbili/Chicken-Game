@@ -10,7 +10,7 @@
 
 body {
   display: flex;
-
+  justify-content: space-between;
   background-image: url(./background.jpg);
   background-position: center;
   background-size: cover;
@@ -25,7 +25,8 @@ h1 {
   margin: 0px;
 }
 
-.levelAndClock {
+.life {
+  background-image: url(./life.jpg);
 }
 
 h2 {
@@ -44,10 +45,23 @@ h3 {
 .clock {
   text-align: center;
   font-size: 1.2rem;
-  margin: 0.3rem;
+  margin: 0;
 }
 
 .lives {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.life {
+  width: 2rem;
+  background-image: url(./life.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  aspect-ratio: 1/1;
+  margin: 0;
 }
 
 button {
@@ -143,5 +157,6 @@ button:hover {
   background-image: url(./fence.png);
   background-position: center;
   background-size: cover;
+  background-size: 110%;
   background-repeat: no-repeat;
 }
