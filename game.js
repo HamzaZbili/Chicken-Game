@@ -31,7 +31,7 @@ function countdown() {
   if (timeLeft === -1) {
     game.gameOver(game.timeOut);
   } else {
-    clock.textContent = "HATCHING IN " + timeLeft + "!";
+    clock.textContent = timeLeft + " time remaining!";
     timeLeft--;
   }
 }
