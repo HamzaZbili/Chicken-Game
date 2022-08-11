@@ -160,6 +160,7 @@ const game = {
   livesArray: [],
 
   startGame() {
+    this.clearBoard();
     startTime();
     moveToGameScreen();
     levels[this.level].start();
@@ -211,8 +212,8 @@ const game = {
     }
   },
   loseLife() {
+    this.clearBoard();
     this.lives -= 1;
-    player.hide();
     levels[this.level].stop();
     levels[this.level].drawMap();
     levels[this.level].start();
@@ -228,10 +229,10 @@ const game = {
     }
   },
   restart() {
+    this.clearBoard();
     this.isGameOver = true;
     egg.hide();
     player.hide();
-    this.clearBoard();
     this.level = 0;
     levels[this.level].fox.stop();
     moveToGameScreen();
