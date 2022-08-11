@@ -171,6 +171,9 @@ const game = {
   clearBoard() {
     for (const cell of board.gridArray) {
       cell.classList.remove(`levelWalls`);
+      cell.classList.remove(`player`);
+      cell.classList.remove(`dirt`);
+      cell.classList.remove(`fox`);
     }
   },
   levelUp() {
