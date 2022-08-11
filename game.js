@@ -1,6 +1,5 @@
 const startButton = document.getElementById(`start`);
-const restartButton = document.getElementById(`restart`);
-
+const restartButton = document.querySelector(`.restart`);
 const startScreen = document.getElementById("startPage");
 const gameScreen = document.getElementById(`gameScreen`);
 const gameOverScreen = document.getElementById(`gameOver`);
@@ -15,12 +14,12 @@ function moveToGameScreen() {
   gameScreen.classList.toggle(`hidden`);
 }
 
-function returnToStartScreen() {
-  startScreen.classList.toggle(`hidden`);
+function returnToGameScreen() {
+  gameScreen.classList.toggle(`hidden`);
   gameOverScreen.classList.toggle(`hidden`);
 }
 
-let timeLeft = 10;
+let timeLeft = 2;
 let timerId;
 function startTime() {
   if (timerId) {
@@ -193,8 +192,8 @@ const game = {
       gameScreen.classList.toggle(`hidden`);
       gameOverScreen.classList.toggle(`hidden`);
       this.isGameOver = true;
-    } else if (death === this.timeOut && this.lives > 0) {
-      timeLeft = 10;
+    } else if (death === this.timeOut && this.lives >= 0) {
+      timeLeft = 2;
       // countdown();
       this.loseLife();
     } else {
@@ -221,18 +220,25 @@ const game = {
       livesContainer.appendChild(life);
     }
   },
+  restart() {
+    player.hide();
+    this.clearBoard();
+    levels[this.level].fox.stop();
+    returnToGameScreen();
+    timeLeft = 10;
+    startTime();
+    this.level = 0;
+    this.lives = 2;
+    levels[this.level].start();
+    player.show();
+    egg.show();
+    this.updateLives();
+    this.isStarted = true;
+  },
 };
 
 startButton.addEventListener("click", () => game.startGame());
-
-// restartButton.addEventListener("clilck", restartGame());
-
-// function restartGame() {
-//   game.level = 1,
-//   game.lives = 2,
-
-//   game.startGame()
-// }
+restartButton.addEventListener("click", () => game.restart());
 
 class GameBoard {
   constructor(height, width) {
@@ -276,7 +282,6 @@ class Fox {
       this.move(this.path[counter++]);
       this.checkChickenCollision();
       this.show();
-      console.log("running");
       if (counter === this.path.length) {
         counter = 0;
       }

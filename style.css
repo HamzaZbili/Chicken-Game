@@ -25,10 +25,6 @@ h1 {
   margin: 0px;
 }
 
-.life {
-  background-image: url(./life.jpg);
-}
-
 h2 {
   text-align: center;
   color: darkorange;
@@ -51,6 +47,7 @@ h3 {
 .lives {
   display: flex;
   flex-direction: row-reverse;
+  height: 2rem;
 }
 
 .life {
@@ -123,7 +120,7 @@ button:hover {
 }
 
 .player {
-  background-image: url(./playerJPEG.png);
+  background-image: url(./life.png);
   background-position: center;
   background-size: cover;
   background-size: 95%;
