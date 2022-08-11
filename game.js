@@ -1,8 +1,9 @@
 const startButton = document.getElementById(`start`);
-const restartButton = document.querySelector(`.restart`);
+const restartButton = document.querySelectorAll(`.restart`);
 const startScreen = document.getElementById("startPage");
 const gameScreen = document.getElementById(`gameScreen`);
 const gameOverScreen = document.getElementById(`gameOver`);
+const winScreen = document.getElementById(`winScreen`);
 
 const livesContainer = document.querySelector(`.lives`);
 
@@ -16,10 +17,14 @@ function moveToGameScreen() {
 
 function returnToGameScreen() {
   gameScreen.classList.toggle(`hidden`);
-  gameOverScreen.classList.toggle(`hidden`);
+  if (gameOverScreen.classList.contains(`hidden`)) {
+    winScreen.classList.toggle(`hidden`);
+  } else {
+    gameOverScreen.classList.toggle(`hidden`);
+  }
 }
 
-let timeLeft = 15;
+let timeLeft = 10;
 let timerId;
 function startTime() {
   if (timerId) {
@@ -112,7 +117,7 @@ const levelSixMap = `
 ###F..####
 ####.#####
 #........#
-#....@...#
+#......@.#
 ##########
 `;
 
@@ -176,15 +181,20 @@ const game = {
     }
   },
   levelUp() {
-    timeLeft = 15;
+    timeLeft = 10;
     this.clearBoard();
     levels[this.level].fox.stop();
     this.level += 1;
-    player.hide();
-    egg.hide();
-    levels[this.level].start();
-    player.show();
-    egg.show();
+    if (this.level === 6) {
+      this.win();
+      return;
+    } else {
+      player.hide();
+      egg.hide();
+      levels[this.level].start();
+      player.show();
+      egg.show();
+    }
   },
   gameOver(death) {
     if (death === this.caughtByFox) {
@@ -226,9 +236,10 @@ const game = {
     egg.hide();
     player.hide();
     this.clearBoard();
+    this.level = 0;
     levels[this.level].fox.stop();
     returnToGameScreen();
-    timeLeft = 15;
+    timeLeft = 10;
     startTime();
     this.level = 0;
     this.lives = 2;
@@ -239,10 +250,18 @@ const game = {
     this.isStarted = true;
     //sorry Robin!
   },
+  win() {
+    clearInterval(timerId);
+    gameScreen.classList.toggle(`hidden`);
+    winScreen.classList.toggle(`hidden`);
+  },
 };
 
 startButton.addEventListener("click", () => game.startGame());
-restartButton.addEventListener("click", () => game.restart());
+
+restartButton.forEach((btn) =>
+  btn.addEventListener("click", () => game.restart())
+);
 
 class GameBoard {
   constructor(height, width) {
@@ -456,7 +475,7 @@ const levels = [
     "The Last Feather",
     levelFourMap,
     new Fox(
-      [37, 36, 35, 34, 33, 32, 31, 32, 33, 34, 35, 36, 37, 37, 38, 37, 38],
+      [37, 36, 35, 34, 33, 32, 31, 32, 33, 34, 35, 36, 37, 38],
       board.gridArray[38]
     )
   ),

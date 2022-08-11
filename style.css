@@ -97,10 +97,7 @@ button:hover {
   border: 3px DarkGreen solid;
 }
 
-#scoreScreen {
-}
-
-.gameOver {
+.scoreScreen {
   width: 80vw;
   aspect-ratio: 1/1;
   margin-right: 0.25rem;
