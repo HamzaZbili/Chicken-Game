@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chicken Run</title>
-    <link href="./style.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet" />
     <script defer src="./game.js"></script>
-</head>
-<body>
+  </head>
+
+  <body>
     <header>
-    <h1>
-        FANTASTIC MR CHICKEN
-    </h1>
-    <div id="startPage" class="startScreen">
+      <h1>FANTASTIC MR CHICKEN</h1>
+      <div id="startPage" class="startScreen">
         <button id="start">START GAME</button>
-    </div>
-    <div id="gameScreen" class="grid hidden"></div>
-    <div id="scoreScreen" class="scoreScreen hidden">
-        <button id="restart">Play Again?</button>
-    </div>
-    
+      </div>
+
+      <div id="gameScreen" class="grid hidden"></div>
+
+      <div id="gameOver" class="gameOver hidden">
+        <h2>GAME OVER</h2>
+        <button class="restart">Play Again</button>
+      </div>
+
+      <div id="scoreScreen" class="scoreScreen hidden">
+        YOU WIN
+        <button class="restart">Play Again</button>
+      </div>
     </header>
-    
+
     <aside id="interface">
-        <div class="levelAndClock">
-            <h2>Level 1</h2>
-            <div class="clock">timer</div>
-        </div>
-        <article>
-            Instructions here
-        </article>
+      <div class="lives"></div>
+      <div class="levelAndClock">
+        <div class="clock">timer</div>
+        <h3></h3>
+      </div>
+      <article></article>
+      <article></article>
+      <artcile></artcile>
+      <article></article>
     </aside>
-</body>
+  </body>
 </html>

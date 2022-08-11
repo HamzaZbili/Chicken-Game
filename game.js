@@ -1,22 +1,24 @@
 const startButton = document.getElementById(`start`);
-const restartButton = document.getElementById(`restart`);
+const restartButton = document.querySelectorAll(`.restart`);
 
 const startScreen = document.getElementById("startPage");
 const gameScreen = document.getElementById(`gameScreen`);
-const scoreScreen = document.getElementById(`scoreScreen`);
+const gameOverScreen = document.getElementById(`gameOver`);
 
 let clock = document.querySelector(`.clock`);
-const levelCount = document.querySelector(`h2`);
+const levelCount = document.querySelector(`h3`);
 
-// function setTimer() {
+function moveToGameScreen() {
+  startScreen.classList.toggle(`hidden`);
+  gameScreen.classList.toggle(`hidden`);
+}
 
-//   time = setInterval(function () {
-//     time ++;
-//   }, 400)}
+function returnToStartScreen() {
+  startScreen.classList.toggle(`hidden`);
+  gameOverScreen.classList.toggle(`hidden`);
+}
 
-// setTimer()
-
-let timeLeft = 15;
+let timeLeft = 10;
 let timerId;
 function startTime() {
   if (timerId) {
@@ -25,9 +27,10 @@ function startTime() {
 
   timerId = setInterval(countdown, 1000);
 }
+
 function countdown() {
   if (timeLeft === -1) {
-    clearTimeout(timerId);
+    game.gameOver(game.timeOut);
   } else {
     clock.textContent = "HATCHING IN " + timeLeft + "!";
     timeLeft--;
@@ -40,9 +43,9 @@ const levelOneMap = `
 ########.#
 #......#.#
 #.####F#.#
-#.###.P#.#
-#.####P#.#
-#.#PPPP#.#
+#.###..#.#
+#.####.#.#
+#.#....#.#
 #@####...#
 ##########
 `;
@@ -77,7 +80,7 @@ const levelFourMap = `
 ##########
 #........#
 #........#
-#....?...#
+#........#
 #........#
 #........#
 #........#
@@ -149,8 +152,12 @@ class Level {
 
 const game = {
   isStarted: false,
-  isGameOver: false,
   level: 0,
+  isGameOver: false,
+  timeOut: `Time out`,
+  caughtByFox: `Caught by Fox`,
+  outOfLives: `Out of Lives`,
+  lives: 2,
 
   startGame() {
     startTime();
@@ -166,6 +173,7 @@ const game = {
     }
   },
   levelUp() {
+    timeLeft = 10;
     this.clearBoard();
     levels[this.level].fox.stop();
     this.level += 1;
@@ -175,17 +183,43 @@ const game = {
     player.show();
     egg.show();
   },
+  gameOver(death) {
+    if (death === this.caughtByFox) {
+      clearInterval(timerId);
+      gameScreen.classList.toggle(`hidden`);
+      gameOverScreen.classList.toggle(`hidden`);
+      this.isGameOver = true;
+    } else if (death === this.timeOut && this.lives > 0) {
+      timeLeft = 10;
+      // countdown();
+      this.loseLife();
+    } else {
+      clearInterval(timerId);
+      gameScreen.classList.toggle(`hidden`);
+      gameOverScreen.classList.toggle(`hidden`);
+      this.isGameOver = true;
+    }
+  },
+  loseLife() {
+    this.lives -= 1;
+    player.hide();
+    levels[this.level].stop();
+    levels[this.level].drawMap();
+    levels[this.level].start();
+    player.show();
+  },
 };
 
 startButton.addEventListener("click", () => game.startGame());
-restartButton.addEventListener(`click`, restartGame);
 
-function restartGame() {
-  game.isStarted = false;
-  game.level = 1;
-  game.startGame();
-  game.displayWalls();
-}
+// restartButton.addEventListener(`click`, restartGame);
+
+// function restartGame() {
+//   game.isStarted = false;
+//   game.level = 1;
+//   game.startGame();
+//   game.displayWalls();
+// }
 
 class GameBoard {
   constructor(height, width) {
@@ -227,6 +261,7 @@ class Fox {
     this.intervalId = setInterval(() => {
       this.hide();
       this.move(this.path[counter++]);
+      this.checkChickenCollision();
       this.show();
       console.log("running");
       if (counter === this.path.length) {
@@ -239,10 +274,14 @@ class Fox {
   }
   stop() {
     clearInterval(this.intervalId);
-    console.log(`test`);
     this.hide();
   }
-  eatChicken() {}
+  checkChickenCollision() {
+    if (this.cell.classList.contains(`player`)) {
+      game.gameOver(game.caughtByFox);
+      this.stop();
+    }
+  }
 }
 
 const player = {
@@ -285,8 +324,12 @@ const player = {
     }
     this.show();
     this.detectEggCollision();
+    this.detectFoxCollision();
   },
   canMove(direction) {
+    if (this.cell.classList.contains(`dirt`)) {
+      return false;
+    }
     const currentIndex = parseInt(this.cell.dataset.index);
     const column = currentIndex % board.width;
     switch (direction) {
@@ -301,10 +344,19 @@ const player = {
         return column > 0;
     }
   },
+  dig() {
+    this.cell.classList.toggle(`player`);
+    this.cell.classList.toggle(`dirt`);
+  },
   detectEggCollision() {
-    if (this.cell.dataset.index === egg.cell.dataset.index) {
-      console.log(`collected`);
+    if (this.cell === egg.cell) {
       game.levelUp();
+    }
+  },
+  detectFoxCollision() {
+    if (this.cell.classList.contains(`fox`)) {
+      game.gameOver(game.caughtByFox);
+      game.isGameOver = true;
     }
   },
   detectWallCollision(cell) {
@@ -325,20 +377,7 @@ const egg = {
   },
 };
 
-function moveToGameScreen() {
-  startScreen.classList.toggle(`hidden`);
-  gameScreen.classList.toggle(`hidden`);
-}
-
-function moveToScoreScreen() {
-  gameScreen.classList.toggle(`hidden`);
-  scoreScreen.classList.toggle(`hidden`);
-}
-
-function returnToStartScreen() {
-  startScreen.classList.toggle(`hidden`);
-  scoreScreen.classList.toggle(`hidden`);
-}
+function gameOver() {}
 
 document.addEventListener("keydown", (event) => {
   if (!game.isStarted) {
@@ -357,6 +396,9 @@ document.addEventListener("keydown", (event) => {
       break;
     case "ArrowRight":
       player.move("right");
+      break;
+    case "Space":
+      player.dig();
       break;
   }
 });

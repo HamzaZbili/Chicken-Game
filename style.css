@@ -10,6 +10,7 @@
 
 body {
   display: flex;
+
   background-image: url(./background.jpg);
   background-position: center;
   background-size: cover;
@@ -25,11 +26,18 @@ h1 {
 }
 
 .levelAndClock {
-  display: block;
 }
 
 h2 {
   text-align: center;
+  color: darkorange;
+  font-size: 3rem;
+  -webkit-text-stroke: 1px black;
+  margin: 0px;
+}
+
+h3 {
+  font-size: 1.8rem;
   text-align: center;
 }
 
@@ -37,6 +45,9 @@ h2 {
   text-align: center;
   font-size: 1.2rem;
   margin: 0.3rem;
+}
+
+.lives {
 }
 
 button {
@@ -75,13 +86,17 @@ button:hover {
   border: 3px DarkGreen solid;
 }
 
-.scoreScreen {
+#scoreScreen {
+}
+
+.gameOver {
   width: 80vw;
   aspect-ratio: 1/1;
-  margin-right: 1rem;
+  margin-right: 0.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .hidden {
@@ -91,11 +106,18 @@ button:hover {
 #interface {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .player {
   background-image: url(./playerJPEG.png);
+  background-position: center;
+  background-size: cover;
+  background-size: 95%;
+  background-repeat: no-repeat;
+}
+
+.dirt {
+  background-image: url(./dirt.png);
   background-position: center;
   background-size: cover;
   background-size: 95%;
