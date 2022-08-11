@@ -17,6 +17,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
+  height: 100%;
 }
 
 h1 {
@@ -43,9 +44,10 @@ h2 {
 }
 
 h3 {
-  font-size: 5vw;
+  width: 10vw;
+  font-size: 2rem;
   text-align: center;
-  margin: 0px;
+  margin-top: 0px;
 }
 .clock h3 {
 }
@@ -107,7 +109,7 @@ button:hover {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   border-radius: 4%;
-  border: 3px DarkGreen solid;
+  border: 2px DarkGreen solid;
 }
 
 .scoreScreen {
@@ -168,13 +170,20 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
+  body {
+    height: 100vh;
+  }
   .grid {
     width: 75vw;
   }
   .startScreen {
-    width: 75vw;
+    height: 40vw;
   }
   .scoreScreen {
-    width: 75vw;
+    width: 60vw;
+  }
+
+  h3 {
+    font-size: medium;
   }
 }
