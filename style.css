@@ -139,12 +139,12 @@ button:hover {
   background-image: url(./egg.png);
   background-position: center;
   background-size: cover;
+  background-size: 180%;
   background-repeat: no-repeat;
 }
 .fox {
-  background-image: url(./chipeurdedora.png);
+  background-image: url(./fox.png);
   background-size: cover;
-  background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 1;

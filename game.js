@@ -19,7 +19,7 @@ function returnToGameScreen() {
   gameOverScreen.classList.toggle(`hidden`);
 }
 
-let timeLeft = 2;
+let timeLeft = 15;
 let timerId;
 function startTime() {
   if (timerId) {
@@ -79,40 +79,40 @@ const levelThreeMap = `
 
 const levelFourMap = `
 ##########
-#........#
-#........#
-#........#
-#........#
-#........#
-#........#
-#........#
-#.......@#
+#...@#####
+#.########
+#.......F#
+######.#.#
+########.#
+########.#
+########.#
+########?#
 ##########
 `;
 
 const levelFiveMap = `
 ##########
-#........#
-#........#
-#....?...#
-#........#
-#........#
-#........#
-#........#
-#.......@#
+##########
+#####?####
+#####.####
+#####.####
+##@##....#
+##.##....#
+##.##...F#
+##....####
 ##########
 `;
 
 const levelSixMap = `
 ##########
 #........#
+#...?....#
+#........#
+####.#####
+###F..####
+####.#####
 #........#
 #....@...#
-#........#
-#........#
-#..?.....#
-#........#
-#........#
 ##########
 `;
 
@@ -176,7 +176,7 @@ const game = {
     }
   },
   levelUp() {
-    timeLeft = 10;
+    timeLeft = 15;
     this.clearBoard();
     levels[this.level].fox.stop();
     this.level += 1;
@@ -188,12 +188,13 @@ const game = {
   },
   gameOver(death) {
     if (death === this.caughtByFox) {
+      this.isGameOver = true;
+      (this.isStarted = false), levels[this.level].fox.stop();
       clearInterval(timerId);
       gameScreen.classList.toggle(`hidden`);
       gameOverScreen.classList.toggle(`hidden`);
-      this.isGameOver = true;
     } else if (death === this.timeOut && this.lives >= 0) {
-      timeLeft = 2;
+      timeLeft = 10;
       // countdown();
       this.loseLife();
     } else {
@@ -221,11 +222,13 @@ const game = {
     }
   },
   restart() {
+    this.isGameOver = true;
+    egg.hide();
     player.hide();
     this.clearBoard();
     levels[this.level].fox.stop();
     returnToGameScreen();
-    timeLeft = 10;
+    timeLeft = 15;
     startTime();
     this.level = 0;
     this.lives = 2;
@@ -234,6 +237,7 @@ const game = {
     egg.show();
     this.updateLives();
     this.isStarted = true;
+    //sorry Robin!
   },
 };
 
@@ -277,6 +281,7 @@ class Fox {
   }
   patrol() {
     let counter = 0;
+    this.show();
     this.intervalId = setInterval(() => {
       this.hide();
       this.move(this.path[counter++]);
@@ -421,7 +426,7 @@ document.addEventListener("keydown", (event) => {
 
 const levels = [
   new Level(
-    "Farm Escape",
+    "Mother's Nest",
     levelOneMap,
     new Fox(
       [
@@ -440,7 +445,7 @@ const levels = [
     )
   ),
   new Level(
-    "3",
+    "Rooster's Revenge",
     levelThreeMap,
     new Fox(
       [64, 54, 44, 34, 24, 14, 15, 14, 24, 34, 44, 54, 64, 63],
@@ -448,18 +453,24 @@ const levels = [
     )
   ),
   new Level(
-    "4",
+    "The Last Feather",
     levelFourMap,
-    new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
+    new Fox(
+      [37, 36, 35, 34, 33, 32, 31, 32, 33, 34, 35, 36, 37, 37, 38, 37, 38],
+      board.gridArray[38]
+    )
   ),
   new Level(
-    "5",
+    "Farm Escape",
     levelFiveMap,
-    new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
+    new Fox(
+      [77, 76, 75, 65, 66, 67, 68, 58, 57, 56, 55, 65, 66, 67, 68, 78],
+      board.gridArray[78]
+    )
   ),
   new Level(
     "Fox Den",
     levelSixMap,
-    new Fox([66, 56, 46, 36, 46, 56, 66, 76], board.gridArray[36])
+    new Fox([54, 55, 54, 53], board.gridArray[53])
   ),
 ];
