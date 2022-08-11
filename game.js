@@ -11,17 +11,10 @@ let clock = document.querySelector(`.clock`);
 const levelCount = document.querySelector(`h3`);
 
 function moveToGameScreen() {
-  startScreen.classList.toggle(`hidden`);
-  gameScreen.classList.toggle(`hidden`);
-}
-
-function returnToGameScreen() {
-  gameScreen.classList.toggle(`hidden`);
-  if (gameOverScreen.classList.contains(`hidden`)) {
-    winScreen.classList.toggle(`hidden`);
-  } else {
-    gameOverScreen.classList.toggle(`hidden`);
-  }
+  startScreen.classList.add(`hidden`);
+  gameScreen.classList.remove(`hidden`);
+  winScreen.classList.add(`hidden`);
+  gameOverScreen.classList.add(`hidden`);
 }
 
 let timeLeft = 10;
@@ -238,7 +231,7 @@ const game = {
     this.clearBoard();
     this.level = 0;
     levels[this.level].fox.stop();
-    returnToGameScreen();
+    moveToGameScreen();
     timeLeft = 10;
     startTime();
     this.level = 0;
