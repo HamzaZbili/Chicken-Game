@@ -10,11 +10,18 @@ const livesContainer = document.querySelector(`.lives`);
 let clock = document.querySelector(`.clock`);
 const levelCount = document.querySelector(`h3`);
 
+const clockSound = document.getElementById(`clockSound`);
+const deathSound = document.getElementById("deathSound");
+const themeTune = document.getElementById(`themeTune`);
+const eggSound = document.getElementById(`eggSound`);
+
 function moveToGameScreen() {
   startScreen.classList.add(`hidden`);
   gameScreen.classList.remove(`hidden`);
   winScreen.classList.add(`hidden`);
   gameOverScreen.classList.add(`hidden`);
+  themeTune.currentTime = 0;
+  themeTune.play();
 }
 
 let timeLeft = 10;
@@ -186,6 +193,7 @@ const game = {
       this.win();
       return;
     } else {
+      eggSound.play();
       player.hide();
       egg.hide();
       levels[this.level].start();
@@ -195,6 +203,8 @@ const game = {
   },
   gameOver(death) {
     if (death === this.caughtByFox) {
+      deathSound.play();
+      themeTune.pause();
       this.isGameOver = true;
       (this.isStarted = false), levels[this.level].fox.stop();
       clearInterval(timerId);
@@ -205,6 +215,7 @@ const game = {
       // countdown();
       this.loseLife();
     } else {
+      themeTune.pause();
       clearInterval(timerId);
       gameScreen.classList.toggle(`hidden`);
       gameOverScreen.classList.toggle(`hidden`);
@@ -212,6 +223,7 @@ const game = {
     }
   },
   loseLife() {
+    clockSound.play();
     this.clearBoard();
     this.lives -= 1;
     levels[this.level].stop();
@@ -245,12 +257,12 @@ const game = {
     egg.show();
     this.updateLives();
     this.isStarted = true;
-    //sorry Robin!
   },
   win() {
     clearInterval(timerId);
     gameScreen.classList.toggle(`hidden`);
     winScreen.classList.toggle(`hidden`);
+    themeTune.pause();
   },
 };
 
