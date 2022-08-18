@@ -15,6 +15,12 @@ const deathSound = document.getElementById("deathSound");
 const themeTune = document.getElementById(`themeTune`);
 const eggSound = document.getElementById(`eggSound`);
 
+const upButton = document.getElementById(`up`);
+const leftButton = document.getElementById(`left`);
+const rightButton = document.getElementById(`right`);
+const downButton = document.getElementById(`down`);
+const digButton = document.getElementById(`dig`);
+
 function moveToGameScreen() {
   startScreen.classList.add(`hidden`);
   gameScreen.classList.remove(`hidden`);
@@ -450,6 +456,41 @@ document.addEventListener("keydown", (event) => {
       player.dig();
       break;
   }
+});
+
+upButton.addEventListener("click", () => {
+  if (!game.isStarted) {
+    return;
+  }
+  player.move("up");
+});
+
+leftButton.addEventListener("click", () => {
+  if (!game.isStarted) {
+    return;
+  }
+  player.move("left");
+});
+
+rightButton.addEventListener("click", () => {
+  if (!game.isStarted) {
+    return;
+  }
+  player.move("right");
+});
+
+downButton.addEventListener("click", () => {
+  if (!game.isStarted) {
+    return;
+  }
+  player.move("down");
+});
+
+digButton.addEventListener(`click`, () => {
+  if (!game.isStarted) {
+    return;
+  }
+  player.dig();
 });
 
 const levels = [

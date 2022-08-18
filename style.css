@@ -9,15 +9,18 @@
 }
 
 body {
-  display: flex;
-  background-color: #89c740;
-  justify-content: space-between;
   background-image: url(./background.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
   height: 100%;
+  height: 100vh;
+}
+
+.game {
+  display: flex;
+  justify-content: space-between;
 }
 
 h1 {
@@ -170,8 +173,11 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
-  body {
-    height: 100vh;
+  h1 {
+    font-size: 2.4rem;
+  }
+  .game {
+    height: 50vh;
   }
   .grid {
     width: 75vw;
@@ -185,5 +191,60 @@ button:hover {
 
   h3 {
     font-size: medium;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.gamePad {
+  width: 55vw;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.direction {
+  display: flex;
+  height: 5rem;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: red;
+  border: solid 4px black;
+  color: yellow;
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+.sizeButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.digButton {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: green;
+  color: yellow;
+  border: solid 4px black;
+  font-size: 3rem;
+  height: 8rem;
+  width: 6rem;
+  border-radius: 20%;
+  margin-left: 0.4rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .controls {
+    display: none;
   }
 }
