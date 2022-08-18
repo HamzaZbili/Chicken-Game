@@ -1,0 +1,250 @@
+@font-face {
+  font-family: "Mouse Memoirs";
+  src: url(./Mouse_Memoirs/MouseMemoirs-Regular.ttf);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Mouse Memoirs";
+}
+
+body {
+  background-image: url(./background.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  height: 100%;
+  height: 100vh;
+}
+
+.game {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  text-align: center;
+  color: darkorange;
+  font-size: 5vw;
+  -webkit-text-stroke: 1px black;
+  margin: 0px;
+}
+
+header {
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  text-align: center;
+  color: darkorange;
+  font-size: 5vw;
+  -webkit-text-stroke: 1px black;
+  margin: 0px;
+}
+
+h3 {
+  width: 10vw;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0px;
+}
+.clock h3 {
+}
+
+.clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  font-size: 3vw;
+}
+
+.lives {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 2rem;
+}
+
+.life {
+  width: 2rem;
+  background-image: url(./life.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  aspect-ratio: 1/1;
+  margin: 0;
+}
+
+button {
+  height: 3rem;
+  width: 6rem;
+  font-size: 1.2rem;
+  border-radius: 30%;
+  margin: 1rem;
+}
+button:hover {
+  position: relative;
+  top: -0.3rem;
+  left: -0.3rem;
+  box-shadow: 0.3rem 0.3rem #888888;
+}
+
+.startScreen {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  width: 60vh;
+  aspect-ratio: 1/1;
+  background-image: url(./grass.jpg);
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  margin-right: 0.25rem;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  border-radius: 4%;
+  border: 2px DarkGreen solid;
+}
+
+.scoreScreen {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+#interface {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.player {
+  background-image: url(./life.png);
+  background-position: center;
+  background-size: cover;
+  background-size: 95%;
+  background-repeat: no-repeat;
+}
+
+.dirt {
+  background-image: url(./dirt.png);
+  background-position: center;
+  background-size: cover;
+  background-size: 95%;
+  background-repeat: no-repeat;
+}
+
+.egg {
+  background-image: url(./egg.png);
+  background-position: center;
+  background-size: cover;
+  background-size: 180%;
+  background-repeat: no-repeat;
+}
+.fox {
+  background-image: url(./fox.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.levelWalls {
+  background-image: url(./fence.png);
+  background-position: center;
+  background-size: cover;
+  background-size: 110%;
+  background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+  .game {
+    height: 50vh;
+  }
+  .grid {
+    width: 75vw;
+  }
+  .startScreen {
+    height: 40vw;
+  }
+  .scoreScreen {
+    width: 60vw;
+  }
+
+  h3 {
+    font-size: medium;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
+
+.gamePad {
+  width: 55vw;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.direction {
+  display: flex;
+  height: 5rem;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: red;
+  border: solid 4px black;
+  color: yellow;
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+.sizeButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.digButton {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: green;
+  color: yellow;
+  border: solid 4px black;
+  font-size: 3rem;
+  height: 8rem;
+  width: 6rem;
+  border-radius: 20%;
+  margin-left: 0.4rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .controls {
+    display: none;
+  }
+}
